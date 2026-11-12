@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<title>FGM Uruguay | Temporada 2027</title>
+<style>
+:root{color-scheme:dark;--bg:#08090b;--panel:#15171b;--line:#292d34;--muted:#9ba1aa;--white:#f5f6f7;--accent:#d8dce2}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--white);font:16px -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+header{padding:24px 18px 18px;border-bottom:1px solid var(--line);background:#0d0f12}
+.brand{font-weight:900;letter-spacing:3px;font-size:25px}.sub{color:var(--muted);font-size:12px;letter-spacing:2px;margin-top:5px}
+main{max-width:760px;margin:auto;padding:18px 14px 48px}.tabs{display:flex;gap:8px;overflow:auto;margin-bottom:18px}
+button{border:1px solid var(--line);background:#202329;color:white;border-radius:10px;padding:12px 15px;font-weight:650;font-size:14px}
+button.active,.primary{background:#f0f1f2;color:#111;border-color:#f0f1f2}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:15px;padding:16px;margin-bottom:14px}
+h2{font-size:19px;margin:0 0 14px}h3{font-size:16px;margin:0 0 8px}
+label{display:block;color:#c2c6cc;font-size:13px;margin:12px 0 6px}
+input,select,textarea{width:100%;padding:13px;border:1px solid #343942;border-radius:9px;background:#0d0f12;color:white;font-size:16px}
+textarea{min-height:82px;resize:vertical}.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.full{width:100%;margin-top:16px}.muted{color:var(--muted);font-size:13px}.player{display:flex;gap:12px;align-items:center;padding:12px 0;border-top:1px solid var(--line)}
+.avatar{width:48px;height:48px;border-radius:50%;background:#30343b;display:grid;place-items:center;overflow:hidden;flex:none;font-weight:800}
+.avatar img{width:100%;height:100%;object-fit:cover}.stats{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+.stat{background:#0d0f12;border:1px solid var(--line);border-radius:12px;padding:14px}.num{font-size:25px;font-weight:800}.stat small{color:var(--muted)}
+.hidden{display:none!important}.danger{background:#3b2023;border-color:#633238}.empty{padding:18px;text-align:center;color:var(--muted)}
+</style>
+</head>
+<body>
+<header><div class="brand">FGM URUGUAY</div><div class="sub">GESTIÓN DE JUGADORES · TEMPORADA 2027</div></header>
+<main>
+<div class="tabs">
+<button class="active" data-tab="inicio">Inicio</button><button data-tab="jugadores">Jugadores</button><button data-tab="partidos">Partidos</button><button data-tab="estadisticas">Estadísticas</button>
+</div>
+<section id="inicio">
+<div class="panel"><h2>Panel general</h2><div class="stats">
+<div class="stat"><div class="num" id="countPlayers">0</div><small>Futbolistas</small></div>
+<div class="stat"><div class="num" id="countMatches">0</div><small>Registros de partido</small></div>
+<div class="stat"><div class="num" id="countGoals">0</div><small>Goles</small></div>
+<div class="stat"><div class="num" id="countAssists">0</div><small>Asistencias</small></div>
+</div></div>
+<div class="panel"><h3>FGM Uruguay</h3><p class="muted">Base de seguimiento de futbolistas, rendimiento y observaciones para la temporada 2027.</p></div>
+</section>
+<section id="jugadores" class="hidden">
+<div class="panel"><h2>Agregar futbolista</h2>
+<label>Nombre completo *</label><input id="pname" placeholder="Nombre y apellido" autocomplete="name">
+<div class="grid"><div><label>Club</label><input id="club" placeholder="Club actual"></div><div><label>Categoría</label><input id="category" placeholder="Ej. Sub 17"></div></div>
+<div class="grid"><div><label>Posición</label><select id="position"><option value="">Seleccionar</option><option>Arquero</option><option>Defensa</option><option>Mediocampista</option><option>Delantero</option></select></div><div><label>Fecha de nacimiento</label><input id="birth" type="date"></div></div>
+<div class="grid"><div><label>Pierna hábil</label><select id="foot"><option value="">Seleccionar</option><option>Derecha</option><option>Izquierda</option><option>Ambas</option></select></div><div><label>Altura (cm)</label><input id="height" type="number" inputmode="numeric" placeholder="Ej. 178"></div></div>
+<label>Foto del jugador</label><input id="photo" type="file" accept="image/*">
+<label>Escudo del club</label><input id="crest" type="file" accept="image/*">
+<label>Observaciones / scouting</label><textarea id="notes" placeholder="Características, fortalezas, aspectos a seguir..."></textarea>
+<button class="primary full" id="savePlayer">Guardar jugador</button><p class="muted">Los campos con * son obligatorios.</p></div>
+<div class="panel"><h2>Base de futbolistas</h2><input id="playerSearch" placeholder="Buscar por nombre, club o categoría"><div id="playerList"></div></div>
+</section>
+<section id="partidos" class="hidden">
+<div class="panel"><h2>Registrar rendimiento</h2>
+<label>Futbolista</label><select id="matchPlayer"><option value="">Seleccionar jugador</option></select>
+<div class="grid"><div><label>Fecha</label><input id="matchDate" type="date"></div><div><label>Competición</label><input id="competition" placeholder="Ej. Campeonato Uruguayo"></div></div>
+<label>Partido</label><input id="fixture" placeholder="Equipo A vs Equipo B">
+<div class="grid"><div><label>Minutos</label><input id="minutes" type="number" min="0" inputmode="numeric" value="0"></div><div><label>Goles</label><input id="goals" type="number" min="0" inputmode="numeric" value="0"></div><div><label>Asistencias</label><input id="assists" type="number" min="0" inputmode="numeric" value="0"></div><div><label>Tarjetas amarillas</label><input id="yellow" type="number" min="0" inputmode="numeric" value="0"></div><div><label>Tarjetas rojas</label><input id="red" type="number" min="0" inputmode="numeric" value="0"></div></div>
+<button class="primary full" id="saveMatch">Guardar rendimiento</button></div>
+<div class="panel"><h2>Registros recientes</h2><div id="matchList"></div></div>
+</section>
+<section id="estadisticas" class="hidden"><div class="panel"><h2>Estadísticas por futbolista</h2><div id="ranking"></div></div>
+<div class="panel"><h3>Respaldo de datos</h3><p class="muted">Descargá una copia de los registros para conservarlos o trasladarlos a otro dispositivo.</p><button id="export">Exportar respaldo JSON</button><label>Importar respaldo JSON</label><input type="file" id="importFile" accept="application/json"></div>
+<div class="panel"><button class="danger" id="clearData">Borrar todos los datos</button></div></section>
+</main>
+<script>
+const $=id=>document.getElementById(id);
+let players=[],matches=[];
+try{players=JSON.parse(localStorage.getItem('fgm_players_v1')||'[]');matches=JSON.parse(localStorage.getItem('fgm_matches_v1')||'[]')}catch(e){}
+const save=()=>{try{localStorage.setItem('fgm_players_v1',JSON.stringify(players));localStorage.setItem('fgm_matches_v1',JSON.stringify(matches));return true}catch(e){alert('No se pudieron guardar los datos. Probá con imágenes más pequeñas o liberá espacio en el navegador.');return false}};
+const uid=()=>Date.now().toString(36)+Math.random().toString(36).slice(2,8);
+const esc=s=>String(s||'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+document.querySelectorAll('[data-tab]').forEach(b=>b.addEventListener('click',()=>{document.querySelectorAll('[data-tab]').forEach(x=>x.classList.toggle('active',x===b));['inicio','jugadores','partidos','estadisticas'].forEach(id=>$(id).classList.toggle('hidden',id!==b.dataset.tab));render()}));
+function fileData(file){return new Promise(resolve=>{if(!file)return resolve('');const r=new FileReader();r.onload=()=>resolve(r.result);r.onerror=()=>resolve('');r.readAsDataURL(file)})}
+$('savePlayer').addEventListener('click',async()=>{const name=$('pname').value.trim();if(!name){alert('Ingresá el nombre del futbolista.');$('pname').focus();return}
+const photo=await fileData($('photo').files[0]),crest=await fileData($('crest').files[0]);
+players.push({id:uid(),name,club:$('club').value.trim(),category:$('category').value.trim(),position:$('position').value,birth:$('birth').value,foot:$('foot').value,height:$('height').value,photo,crest,notes:$('notes').value.trim()});
+if(save()){['pname','club','category','birth','height','notes','photo','crest'].forEach(id=>$(id).value='');$('position').value='';$('foot').value='';render();alert('Futbolista guardado correctamente.')}
+});
+$('saveMatch').addEventListener('click',()=>{const playerId=$('matchPlayer').value;if(!playerId){alert('Seleccioná un futbolista.');return}
+matches.push({id:uid(),playerId,date:$('matchDate').value,competition:$('competition').value,fixture:$('fixture').value,minutes:+$('minutes').value||0,goals:+$('goals').value||0,assists:+$('assists').value||0,yellow:+$('yellow').value||0,red:+$('red').value||0});
+if(save()){['competition','fixture'].forEach(id=>$(id).value='');['minutes','goals','assists','yellow','red'].forEach(id=>$(id).value=0);render();alert('Rendimiento guardado.')}}
+);
+function totals(id){return matches.filter(m=>m.playerId===id).reduce((a,m)=>{['minutes','goals','assists','yellow','red'].forEach(k=>a[k]+=m[k]||0);a.games++;return a},{minutes:0,goals:0,assists:0,yellow:0,red:0,games:0})}
+function render(){ $('countPlayers').textContent=players.length;$('countMatches').textContent=matches.length;$('countGoals').textContent=matches.reduce((s,m)=>s+m.goals,0);$('countAssists').textContent=matches.reduce((s,m)=>s+m.assists,0);
+const q=$('playerSearch').value.toLowerCase();$('playerList').innerHTML=players.filter(p=>(p.name+' '+p.club+' '+p.category).toLowerCase().includes(q)).map(p=>{let t=totals(p.id);return `<div class="player"><div class="avatar">${p.photo?`<img src="${p.photo}">`:esc(p.name.slice(0,1).toUpperCase())}</div><div style="flex:1"><b>${esc(p.name)}</b><div class="muted">${esc(p.club)} · ${esc(p.category)} · ${esc(p.position)}</div><div class="muted">${t.games} PJ · ${t.goals} G · ${t.assists} A</div></div><button class="danger" data-del="${p.id}">Eliminar</button></div>`}).join('')||'<div class="empty">Todavía no hay futbolistas registrados.</div>';
+$('matchPlayer').innerHTML='<option value="">Seleccionar jugador</option>'+players.map(p=>`<option value="${p.id}">${esc(p.name)}</option>`).join('');
+$('matchList').innerHTML=matches.slice().reverse().slice(0,25).map(m=>{let p=players.find(x=>x.id===m.playerId);return `<div class="player"><div style="flex:1"><b>${esc(p?.name||'Jugador eliminado')}</b><div class="muted">${esc(m.fixture)} · ${esc(m.date)}</div><div class="muted">${m.minutes} min · ${m.goals} G · ${m.assists} A</div></div></div>`}).join('')||'<div class="empty">No hay partidos registrados.</div>';
+$('ranking').innerHTML=players.slice().sort((a,b)=>totals(b.id).goals-totals(a.id).goals).map(p=>{let t=totals(p.id);return `<div class="player"><div style="flex:1"><b>${esc(p.name)}</b><div class="muted">${esc(p.club)} · ${esc(p.category)}</div></div><div style="text-align:right"><b>${t.goals} G · ${t.assists} A</b><div class="muted">${t.games} PJ · ${t.minutes} min</div></div></div>`}).join('')||'<div class="empty">Agregá futbolistas para ver las estadísticas.</div>';
+document.querySelectorAll('[data-del]').forEach(b=>b.onclick=()=>{if(confirm('¿Eliminar este futbolista y sus registros?')){players=players.filter(p=>p.id!==b.dataset.del);matches=matches.filter(m=>m.playerId!==b.dataset.del);save();render()}});
+}
+$('playerSearch').addEventListener('input',render);
+$('export').onclick=()=>{const blob=new Blob([JSON.stringify({players,matches},null,2)],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='FGM_Uruguay_respaldo_2027.json';a.click();URL.revokeObjectURL(a.href)};
+$('importFile').addEventListener('change',async e=>{const f=e.target.files[0];if(!f)return;try{const d=JSON.parse(await f.text());if(!Array.isArray(d.players)||!Array.isArray(d.matches))throw 0;if(confirm('¿Reemplazar los datos actuales por el respaldo?')){players=d.players;matches=d.matches;save();render();alert('Respaldo importado.')}}catch(_){alert('El archivo no es un respaldo FGM válido.')}e.target.value=''});
+$('clearData').onclick=()=>{if(confirm('¿Seguro que querés borrar todos los jugadores y partidos?')){players=[];matches=[];save();render()}};
+render();
+</script>
+</body></html>
